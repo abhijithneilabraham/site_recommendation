@@ -13,7 +13,7 @@ Example.
 from recommender import Recommender
 urls=['http://abhijithneilabraham.me/eywabot/','http://abhijithneilabraham.me/','https://abhisharmab.github.io/','https://karuvally.github.io/']
 r=Recommender(urls,crawl=True) 
-res=r.recommend('http://abhijithneilabraham.me/eywabot/models/Classifer/',num=2)
+res=r.recommend('http://abhijithneilabraham.me/eywabot/',num=2)
 print("Results={}".format(res))
 ```
 
