@@ -47,14 +47,14 @@ class Crawler():
         synonyms=list(set([i.lemmas()[0].name().lower() for i in synobj]))
         return synonyms
     
-    def crawl(self,url): #crawl a given url and its sub urls and get keywords
+    def crawl(self,url): #crawl a given url and its sub urls and get keywords, returns a string of bag of words and synonyms
         source_code = requests.get(url).text 
         soup = BeautifulSoup(source_code, 'html.parser') 
         url_maps=self.get_links(soup, url)
         keywords=self.get_keywords(url)
         for sub_urls in url_maps.values():
             for sub_url in sub_urls:
-                print(sub_url)
+                print("crawling website:",sub_url)
                 try:
                     keywords+=self.get_keywords(sub_url)
                 except not KeyboardInterrupt:
