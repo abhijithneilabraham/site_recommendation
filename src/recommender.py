@@ -32,7 +32,7 @@ class Recommender:
         weight_sum=(w1*t)+(w2*s)
         return weight_sum
     def recommend(self,url ,num=10):#recommendation engine which uses cosine similarity to sort the most scored links
-        if url not in self.urls:
+        if url not in self.urls and url not in self.df['url'].values:
             self.urls.append(url)
             data_process=data_utils(self.urls)
             self.df=data_process.read_data(crawl=True)
