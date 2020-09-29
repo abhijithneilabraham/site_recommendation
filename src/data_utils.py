@@ -40,7 +40,6 @@ class data_utils:
         else:
             return self.read_data(crawl=True)
 
-d=data_utils(['http://abhijithneilabraham.me/eywabot/','http://abhijithneilabraham.me/'])
-data=d.read_data(crawl=True)
+
             
     
