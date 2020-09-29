@@ -17,7 +17,7 @@ class Recommender:
         self.df=data_process.read_data(crawl=self.crawl)
         self.t_avg=self.df['traffic'].mean()
         self.wt=1/self.t_avg
-        self.ws=1.5
+        self.ws=.8
     def get_cosine_similarity(self): #get cosine similarity by getting a count_matrix of n*n shape
         count = CountVectorizer()
         count_matrix = count.fit_transform(self.df['bag_of_words'])
@@ -33,14 +33,22 @@ class Recommender:
         return weight_sum
     def recommend(self,url ,num=10): #recommendation engine which uses cosine similarity to sort the most scored links
         cosine_sim=self.get_cosine_similarity()
-        recommended_links = []
         indices = pd.Series(self.df['url'])
         idx = indices[indices == url].index[0]
         score_series = pd.Series(cosine_sim[idx])
         self.df['scores']=score_series
         self.df['weighted_scores'] = self.df.apply(self.weighted_rating, axis=1)
         score_weighted_series = self.df.sort_values('weighted_scores', ascending=False)
-        top_n=list(score_weighted_series["url"].iloc[1:num+1])
+        print(score_weighted_series[["weighted_scores","url"]])
+        top_indices=list(score_weighted_series.index)
+        data=list(self.df['url'])
+        top_n=[]
+        for i,j in enumerate(top_indices):
+            if j!=idx:
+                top_n.append(data[j])
+            if len(top_n)==num:
+                break
+            
         return top_n
         
         
