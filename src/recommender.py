@@ -22,12 +22,8 @@ class Recommender:
         count_matrix = count.fit_transform(self.df['bag_of_words'])
         cosine_sim = cosine_similarity(count_matrix, count_matrix)
         return cosine_sim
-    # def weighted_rating(x, m=m, C=C):
-    #     v = x['vote_count']
-    #     R = x['vote_average']
-    # # Calculation based on the IMDB formula
-    #     return (v/(v+m) * R) + (m/(m+v) * C)
-    def weighted_rating(self,x):
+
+    def weighted_rating(self,x): #using weights for calculating the overall weighted sum to score
         t= x['traffic']
         s = x['scores']
         w1=self.wt
@@ -41,11 +37,10 @@ class Recommender:
         idx = indices[indices == url].index[0]
         score_series = pd.Series(cosine_sim[idx])
         self.df['scores']=score_series
-        print(self.df)
         self.df['weighted_scores'] = self.df.apply(self.weighted_rating, axis=1)
         print(self.df)
         score_weighted_series = self.df.sort_values('weighted_scores', ascending=False)
-        top_indices = list(score_weighted_series.iloc[:num].index)     
+        top_indices = list(score_weighted_series.iloc[:num+1].index)     
 
         for i in top_indices:
             pred=list(self.df['url'])[i]
