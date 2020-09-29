@@ -19,8 +19,9 @@ print("Results={}".format(res))
 
 Optional:
 
-#use crawl=False to load from already crawled dataset,and save crawling time if you already crawled the same thing once.See [url_maps.csv](src/url_maps.csv)
-#num=10 by default, change it to modify the number of recommendations.
+-use crawl=False to load from already crawled dataset,and save crawling time if you already crawled the same thing once.See [url_maps.csv](src/url_maps.csv).  
+
+-num=10 by default, change it to modify the number of recommendations.
 
 
 
