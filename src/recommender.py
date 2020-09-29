@@ -24,11 +24,13 @@ class Recommender:
         cosine_sim=self.get_cosine_similarity()
         recommended_links = []
         indices = pd.Series(self.df['url'])
-        idx = indices.index[0]
-        score_series = pd.Series(cosine_sim[idx]).sort_values(ascending = False)
-        top_indices = list(score_series.iloc[1:num+1].index)     
+        idx = indices[indices == url].index[0]
+        score_series = pd.Series(cosine_sim[idx])
+        top_indices = list(score_series.iloc[1:num+2].index)     
         for i in top_indices:
-            recommended_links.append(list(self.df['url'])[i])
+            pred=list(self.df['url'])[i]
+            if url!=pred:
+                recommended_links.append(list(self.df['url'])[i])
             
         return recommended_links
         
