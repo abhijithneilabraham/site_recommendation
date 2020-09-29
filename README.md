@@ -11,10 +11,13 @@ A recommender system to crawl multiple sites and get recommendation for sites to
 Example.  
 ```
 from recommender import Recommender
-r=Recommender(['http://abhijithneilabraham.me/eywabot/','http://abhijithneilabraham.me/','https://abhisharmab.github.io/','https://karuvally.github.io/'],crawl=True)
+urls=['http://abhijithneilabraham.me/eywabot/','http://abhijithneilabraham.me/','https://abhisharmab.github.io/','https://karuvally.github.io/']
+r=Recommender(urls,crawl=True) #use crawl=False to load from already crawled dataset, see [url maps csv](src/url_maps.csv)
 res=r.recommend('http://abhijithneilabraham.me/eywabot/models/Classifer/',num=2)
 print("Results={}".format(res))
 ```
+
+
 
 
 
