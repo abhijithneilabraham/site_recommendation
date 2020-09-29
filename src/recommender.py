@@ -28,7 +28,7 @@ class Recommender:
         t= x['traffic']
         s = x['scores']
         w1=self.wt
-        w2=self.s_avg
+        w2=1/self.s_avg
         print(w1,w2)
         weight_sum=(w1*t)+(w2*s)
         return weight_sum
