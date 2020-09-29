@@ -4,3 +4,4 @@ nltk
 spacy
 spacy_wordnet
 rake_nltk
+bs4
