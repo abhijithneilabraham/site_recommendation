@@ -2,7 +2,7 @@
 from data_utils import data_utils
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 class Recommender:
     """
@@ -18,10 +18,10 @@ class Recommender:
         self.t_avg=self.df['traffic'].mean()
         self.wt=1/self.t_avg
         self.ws=None
-    def get_cosine_similarity(self): #get cosine similarity by getting a count_matrix of n*n shape
-        count = CountVectorizer()
-        count_matrix = count.fit_transform(self.df['bag_of_words'])
-        cosine_sim = cosine_similarity(count_matrix, count_matrix)
+    def get_cosine_similarity(self): #get cosine similarity by getting a term frequency, inverse document frequency of n*n shape
+        tf = TfidfVectorizer()
+        tf_matrix = tf.fit_transform(self.df['bag_of_words'])
+        cosine_sim = cosine_similarity(tf_matrix, tf_matrix)
         return cosine_sim
 
     def weighted_rating(self,x): #using weights for calculating the overall weighted sum to score
