@@ -26,7 +26,9 @@ class Recommender:
         indices = pd.Series(self.df['url'])
         idx = indices[indices == url].index[0]
         score_series = pd.Series(cosine_sim[idx])
-        top_indices = list(score_series.iloc[1:num+2].index)     
+        print(score_series)
+        top_indices = list(score_series.iloc[:num].index)     
+        print(top_indices)
         for i in top_indices:
             pred=list(self.df['url'])[i]
             if url!=pred:
