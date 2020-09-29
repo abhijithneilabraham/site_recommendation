@@ -29,10 +29,15 @@ class Recommender:
         s = x['scores']
         w1=self.wt
         w2=1/self.s_avg
-        print(w1,w2)
         weight_sum=(w1*t)+(w2*s)
         return weight_sum
-    def recommend(self,url ,num=10): #recommendation engine which uses cosine similarity to sort the most scored links
+    def recommend(self,url ,num=10):#recommendation engine which uses cosine similarity to sort the most scored links
+        if url not in self.urls:
+            self.urls.append(url)
+            data_process=data_utils(self.urls)
+            self.df=data_process.read_data(crawl=True)
+            
+            
         cosine_sim=self.get_cosine_similarity()
         indices = pd.Series(self.df['url'])
         idx = indices[indices == url].index[0]
