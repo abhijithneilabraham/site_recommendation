@@ -27,7 +27,6 @@ class data_utils:
             url_maps['url']+=[url]
             url_maps['bag_of_words']+=crawler.crawl(url)
             url_maps['traffic']+=crawler.get_traffic()
-        print(url_maps)
         self.create_df_dump('url_maps.csv', url_maps)
 
     def read_data(self,crawl=False): #read data, if crawl true then crawl and get data, else use data from  dataset.

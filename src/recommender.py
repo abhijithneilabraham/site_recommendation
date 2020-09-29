@@ -15,8 +15,9 @@ class Recommender:
         self.crawl=crawl
         data_process=data_utils(self.urls)
         self.df=data_process.read_data(crawl=self.crawl)
-        self.wt=0.4
-        self.ws=0.8
+        self.t_avg=self.df['traffic'].mean()
+        self.wt=1/self.t_avg
+        self.ws=1.5
     def get_cosine_similarity(self): #get cosine similarity by getting a count_matrix of n*n shape
         count = CountVectorizer()
         count_matrix = count.fit_transform(self.df['bag_of_words'])
@@ -38,16 +39,9 @@ class Recommender:
         score_series = pd.Series(cosine_sim[idx])
         self.df['scores']=score_series
         self.df['weighted_scores'] = self.df.apply(self.weighted_rating, axis=1)
-        print(self.df)
         score_weighted_series = self.df.sort_values('weighted_scores', ascending=False)
-        top_indices = list(score_weighted_series.iloc[:num+1].index)     
-
-        for i in top_indices:
-            pred=list(self.df['url'])[i]
-            if url!=pred:
-                recommended_links.append(list(self.df['url'])[i])
-            
-        return recommended_links
+        top_n=list(score_weighted_series["url"].iloc[1:num+1])
+        return top_n
         
         
 

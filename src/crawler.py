@@ -39,7 +39,7 @@ class Crawler():
         site_keywords=wordlist
         return site_keywords
     def get_traffic(self): #random number generator to get traffic on a website
-        return [random.randint(0, 100)]
+        return [random.randint(0, 30)]
     
     def get_synonyms(self,word): #get synonyms for a word to add to the list of words
         token = nlp(word)[0]
