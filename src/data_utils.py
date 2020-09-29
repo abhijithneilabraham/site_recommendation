@@ -14,34 +14,33 @@ crawler=Crawler()
 class data_utils:
     def __init__(self,urls):
         self.urls=urls
-    def del_dump(self,filepath): #if json dump exists, remove the dump
+    def del_dump(self,filepath): #if data dump exists, remove the dump
         if os.path.isfile(filepath):
-            os.remove(filepath)
-            
-    def create_json_dump(self,filepath,data): #create a json dump with given data mappings
+            os.remove(filepath)          
+    def create_df_dump(self,filepath,data): #create a df dump with given data mappings
         self.del_dump(filepath)
-        with open(filepath, "w") as write_file:
-            json.dump(data, write_file)
-    def kwd_dump(self):
-        url_maps={}
+        df=pd.DataFrame(data)
+        df.to_csv(filepath)
+    def data_dump(self): #create data mappings and then dump
+        url_maps={'url':[],'bag_of_words':[],'traffic':[]}
         for url in self.urls:
-            url_maps[url]=crawler.crawl(url)
-            self.create_json_dump('url_maps.json', url_maps)
+            url_maps['url']+=[url]
+            url_maps['bag_of_words']+=crawler.crawl(url)
+            url_maps['traffic']+=crawler.get_traffic()
+        print(url_maps)
+        self.create_df_dump('url_maps.csv', url_maps)
 
-    def read_data(self,crawl=False):
+    def read_data(self,crawl=False): #read data, if crawl true then crawl and get data, else use data from  dataset.
         if crawl:
-            self.kwd_dump()
+            self.data_dump()
             return self.read_data(crawl=False)
-        if os.path.isfile('url_maps.json'):
-            with open('url_maps.json') as f:
-                data=json.load(f)
-            df=pd.DataFrame(data)
+        if os.path.isfile('url_maps.csv'):
+            df=pd.read_csv('url_maps.csv')
             return df
         else:
             return self.read_data(crawl=True)
 
 d=data_utils(['http://abhijithneilabraham.me/eywabot/','http://abhijithneilabraham.me/'])
-data=d.read_data()
+data=d.read_data(crawl=True)
             
-    
     
